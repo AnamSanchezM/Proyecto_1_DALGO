@@ -44,12 +44,12 @@ def maximo_de_reliquias(M):
                         dp_indiana[i][j] -= M[i][j]
 
                     # Caso 2: Indiana tiene opciones válidas en \( j-1 \) y \( j-2 \) pero Marion no en \( j+1 \) y \( j+2 \)
-                    elif (j > 1 and M[i][j-1] != -1 and M[i][j-2] != -1) and (j < C-2 and M[i][j+1] == -1 and M[i][j+2] == -1):
+                    elif (j > 1 and (M[i][j-1] != -1 or M[i][j-2] != -1)) and (j < C-2 and M[i][j+1] == -1 and M[i][j+2] == -1):
                         # Indiana toma el mejor valor entre \( j-1 \) y \( j-2 \)
                         dp_indiana[i][j] = max(dp_indiana[i-1][j-1] + M[i][j-1], dp_indiana[i-1][j-2] + M[i][j-2])
 
                     # Caso 3: Marion tiene opciones válidas en \( j+1 \) y \( j+2 \) pero Indiana no en \( j-1 \) y \( j-2 \)
-                    elif (j > 1 and M[i][j-1] == -1 and M[i][j-2] == -1) and (j < C-2 and M[i][j+1] != -1 and M[i][j+2] != -1):
+                    elif (j > 1 and M[i][j-1] == -1 and M[i][j-2] == -1) and (j < C-2 and (M[i][j+1] != -1 or M[i][j+2] != -1)):
                         # Marion toma el mejor valor entre \( j+1 \) y \( j+2 \)
                         dp_marion[i][j] = max(dp_marion[i][j+1] + M[i][j+1], dp_marion[i][j+2] + M[i][j+2])
   
