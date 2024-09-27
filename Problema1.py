@@ -33,6 +33,14 @@ def maximo_de_reliquias(M):
                     dp_marion[i][j] = max(dp_marion[i][j], dp_marion[i-1][j] + M[i][j])
                 if j < C-1 and dp_marion[i-1][j+1] != -math.inf:
                     dp_marion[i][j] = max(dp_marion[i][j], dp_marion[i-1][j+1] + M[i][j])
+                
+                # Verificar colisiones entre Indiana y Marion en la misma celda
+                if dp_indiana[i][j] != -math.inf and dp_marion[i][j] != -math.inf and dp_marion[i][j]== dp_indiana[i][j]:
+                    # Si ambos están en la misma celda, tomar el valor una vez
+                    dp_indiana[i][j] = dp_marion[i][j] = max(dp_indiana[i][j], dp_marion[i][j])
+                    # Solo sumar una vez el valor de M[i][j]
+                    dp_indiana[i][j] -= M[i][j]
+
             else: 
                 dp_indiana[i][j] = -math.inf
                 dp_marion[i][j] = -math.inf
