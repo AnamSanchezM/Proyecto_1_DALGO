@@ -1,6 +1,6 @@
 import math
 
-def resolver_piramide_con_muertes_optimizado(M):
+def maximo_de_reliquias(M):
     R = len(M)
     C = len(M[0])
 
@@ -100,7 +100,7 @@ def leer_casos_desde_archivo(nombre_archivo):
 # Función para procesar cada caso
 def procesar_caso(caso):
     R, C, matriz = caso['R'], caso['C'], caso['matriz']
-    return resolver_piramide_con_muertes_optimizado(matriz)
+    return maximo_de_reliquias(matriz)
 
 def main(): 
     opcion = int(input("Ingrese 1 para leer archivo o 2 para escribirlo en consola o 3 para la matriz por defecto: "))
@@ -119,11 +119,11 @@ def main():
         R, C = map(int, input().strip().split())
         matriz = [list(map(int, input().strip().split())) for _ in range(R)]
         print(f"Procesando caso con matriz de tamaño {R}x{C}:")
-        resultado = resolver_piramide_con_muertes_optimizado(matriz)
+        resultado = maximo_de_reliquias(matriz)
         print(f"Máximo de recursive_board_game: {resultado}")
         
     elif opcion == 3:
-        print(resolver_piramide_con_muertes_optimizado(matriz))
+        print(maximo_de_reliquias(matriz))
     
 if __name__ == "__main__":
     main()
