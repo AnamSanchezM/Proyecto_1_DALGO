@@ -34,13 +34,25 @@ def maximo_de_reliquias(M):
                 if j < C-1 and dp_marion[i-1][j+1] != -math.inf:
                     dp_marion[i][j] = max(dp_marion[i][j], dp_marion[i-1][j+1] + M[i][j])
                 
-                # Verificar colisiones entre Indiana y Marion en la misma celda
-                if dp_indiana[i][j] != -math.inf and dp_marion[i][j] != -math.inf and dp_marion[i][j]== dp_indiana[i][j]:
-                    # Si ambos están en la misma celda, tomar el valor una vez
-                    dp_indiana[i][j] = dp_marion[i][j] = max(dp_indiana[i][j], dp_marion[i][j])
-                    # Solo sumar una vez el valor de M[i][j]
-                    dp_indiana[i][j] -= M[i][j]
+                ## Verificar colisiones entre Indiana y Marion en la misma celda
+                if dp_indiana[i][j] != -math.inf and dp_marion[i][j] != -math.inf and dp_marion[i][j] == dp_indiana[i][j]:
+                    # Caso 1: Todas las opciones \( j-1, j-2, j+1, j+2 \) son -1, solo sumamos una vez
+                    if (j > 1 and M[i][j-1] == -1 and M[i][j-2] == -1) and (j < C-2 and M[i][j+1] == -1 and M[i][j+2] == -1):
+                        # Ambos están en la misma celda
+                        dp_indiana[i][j] = dp_marion[i][j] = max(dp_indiana[i][j], dp_marion[i][j])
+                        # Solo sumar una vez el valor de M[i][j] para evitar doble cuenta
+                        dp_indiana[i][j] -= M[i][j]
 
+                    # Caso 2: Indiana tiene opciones válidas en \( j-1 \) y \( j-2 \) pero Marion no en \( j+1 \) y \( j+2 \)
+                    elif (j > 1 and M[i][j-1] != -1 and M[i][j-2] != -1) and (j < C-2 and M[i][j+1] == -1 and M[i][j+2] == -1):
+                        # Indiana toma el mejor valor entre \( j-1 \) y \( j-2 \)
+                        dp_indiana[i][j] = max(dp_indiana[i-1][j-1] + M[i][j-1], dp_indiana[i-1][j-2] + M[i][j-2])
+
+                    # Caso 3: Marion tiene opciones válidas en \( j+1 \) y \( j+2 \) pero Indiana no en \( j-1 \) y \( j-2 \)
+                    elif (j > 1 and M[i][j-1] == -1 and M[i][j-2] == -1) and (j < C-2 and M[i][j+1] != -1 and M[i][j+2] != -1):
+                        # Marion toma el mejor valor entre \( j+1 \) y \( j+2 \)
+                        dp_marion[i][j] = max(dp_marion[i][j+1] + M[i][j+1], dp_marion[i][j+2] + M[i][j+2])
+  
             else: 
                 dp_indiana[i][j] = -math.inf
                 dp_marion[i][j] = -math.inf
